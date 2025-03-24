@@ -8,36 +8,6 @@ import toast, { Toaster } from 'react-hot-toast'
 
 const AddProperty = () => {
 
-    // for image upload on clounary
-
-    const [previewUrl, setPreviewUrl] = useState(' ');
-
-    const uploadfile = (e) => {
-        const file = e.target.files[0];
-
-        const formdata = new FormData();
-        formdata.append('file', file);
-        formdata.append('upload_preset', 'myuploadpreset');
-        formdata.append('cloud_name', 'dbugkyyly');
-
-        axios.post('https://api.cloudinary.com/v1_1/dbugkyyly/image/upload', formdata, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then((result) => {
-                toast.success('File Uploaded Successfully');
-                console.log(result.data);
-                setPreviewUrl(result.data.url);
-            }).catch((err) => {
-                console.log(err);
-                toast.error('File Upload Failed')
-            });
-    }
-
-    let url=previewUrl;
-
-
     const addSitesForm = useFormik({
         initialValues: {
             name: '',
@@ -47,7 +17,7 @@ const AddProperty = () => {
             type: '',
             address: '',
             contact: '',
-            image:  url
+            image: ''
         },
 
 
@@ -65,15 +35,39 @@ const AddProperty = () => {
 
     })
 
+    // for image upload on clounary
 
-    
-    
+    const [previewUrl, setPreviewUrl] = useState('');
 
-    
+    const uploadfile = (e) => {
+        const file = e.target.files[0];
+        const formdata = new FormData();
+        formdata.append('file', file);
+        formdata.append('upload_preset', 'myuploadpreset');
+        formdata.append('cloud_name', 'dbugkyyly');
+
+        axios.post('https://api.cloudinary.com/v1_1/dbugkyyly/image/upload', formdata, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then((result) => {
+                toast.success('File Uploaded Successfully');
+                console.log(result.data.url);
+                setPreviewUrl(result.data.url);
+                addSitesForm.setFieldValue('image', result.data.url);
+
+            }).catch((err) => {
+                console.log(err);
+                toast.error('file upload fail')
+            });
+    }
+
+
 
 
     return (
-        
+
         <div className="bg-[url('https://static.vecteezy.com/system/resources/thumbnails/007/515/578/original/home-selling-business-concept-with-a-bag-of-money-and-a-house-4k-animation-real-estate-business-transaction-animation-buying-or-selling-house-4k-animation-concept-hands-with-bag-of-money-and-home-video.jpg')] bg-fixed  bg-cover flex w-full h-screen justify-center items-center" >
             <div className='border rounded-2xl border-blue-900 bg-gray-200 bg-opacity-80  flex flex-col p-4  w-2/3 justify-center items-center'>
 
@@ -84,7 +78,7 @@ const AddProperty = () => {
                     <div className='grid grid-cols-2 grid-flow-row '>
 
                         <div className='col-span-1'>
-                            
+
                             <label className='font-bold text-xl mr-2' htmlFor="name">Name : </label>
                             <input className="border border-gray-700 rounded-xl p-2 h-10"
                                 type="text"
@@ -93,12 +87,12 @@ const AddProperty = () => {
                                 onChange={addSitesForm.handleChange}
                                 value={addSitesForm.values.name}
 
-                                
+
                             />
                         </div>
 
-                        
-                        
+
+
                         <div className='col-span-1'>
                             <label className='font-bold text-xl mr-2' htmlFor="area">Area :</label>
                             <input className="border border-gray-700 rounded-xl p-2 h-10"
@@ -153,87 +147,27 @@ const AddProperty = () => {
 
                     <div className='grid grid-cols-7 w-full'>
 
-                        <h1 className='font-bold text-xl col-span-2 pt-4 items-center justify-center'> Select Images: </h1>
+                        <h1 className='font-bold text-xl col-span-2 pt-4 items-center justify-center'> Select Image: </h1>
 
-                        <div className='boder border-gray-800 bg-white flex rounded-xl col-span-5'>
+                        <div >
 
-                            <div className='flex m-3 w-full col-span-1'>
+                            <input className='mt-4'
+                                type="file"
+                                onChange={uploadfile} 
+                            />
 
-                                <label  
-                                    className='text-xl text-center border bg-gray-200 rounded-xl w-full'     
-                                    htmlFor="mainimage"
-                                    onChange={addSitesForm.handleChange}
-                                >
-                                    Upload
-                                </label>
 
-                                <input 
-                                    type="file"      
-                                    id="mainimage" 
-                                    hidden
-                                    onChange={uploadfile }
-                                    
-                                    
-                                />
-
-                            </div>
-{/* 
-                            <div className='flex m-3 w-full col-span-1'>
-                                <label className='text-xl border  bg-gray-200 rounded-xl'
-                                    onChange={addSitesForm.handleChange}
-
-                                    htmlFor="sideimage"
-                                    type="file" >Side</label>
-                                <input type="file" id="sideimage" hidden
-                                    onChange={uploadfile}
-                                    value={addSitesForm.values.sideimage.previewUrl}
-                                />
-                            </div>
-
-                            <div className='flex m-3 w-full col-span-1'>
-                                <label className='text-xl  border  bg-gray-200 rounded-xl ' htmlFor="kitchenimage"
-                                    onChange={addSitesForm.handleChange}
-
-                                >kitchen</label>
-                                <input type="file" id="kitchenimage" hidden
-                                    onChange={uploadfile}
-                                    value={addSitesForm.values.kitchenimage.previewUrl} />
-                            </div>
-
-                            <div className='flex m-3 w-full col-span-1'>
-                                <label className='text-xl border  bg-gray-200 rounded-xl' htmlFor="bedroomimage"
-                                    onChange={addSitesForm.handleChange}
-                                >BedRoom</label>
-                                <input type="file" id="bedroomimage" hidden
-                                    onChange={uploadfile}
-                                    value={addSitesForm.values.bedroomimage.previewUrl}
-                                />
-                            </div>
-
-                            <div className='flex m-3 w-full col-span-1'>
-                                <label className='text-xl border  bg-gray-200 rounded-xl ' htmlFor="washroomimage" onChange={addSitesForm.handleChange}>WashRoom
-                                </label>
-                                <input type="file" id="washroomimage" hidden
-                                    onChange={uploadfile}
-                                    value={addSitesForm.values.washroomimage.previewUrl}
-                                />
-                            </div> */}
-                            
                         </div>
 
                     </div>
 
 
 
+                    <button disabled={!previewUrl} type='submit' className='w-full bg-blue-600 rounded-2xl h-10 mt-10'>SUBMIT</button>
 
-                    <button className='w-full bg-blue-600 rounded-2xl h-10 mt-10' type='submit'>SUBMIT</button>
+                    {/* <button className='w-full bg-blue-600 rounded-2xl h-10 mt-10' type='submit'>SUBMIT</button> */}
 
                 </form>
-
-                {/* <h1>Url:{addSitesForm.values.image}</h1> */}
-
-
-
             </div>
 
 

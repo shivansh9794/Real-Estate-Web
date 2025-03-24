@@ -2,15 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 const SearchBar = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-
-    // console.log(searchResults);
-
-
 
     const fetchData = () => {
         axios.get(`http://localhost:5000/sites/getbyname/${searchTerm}`)
@@ -27,7 +24,9 @@ const SearchBar = () => {
             <div>
                 <ul>
                     {searchResults.map((item) => (
-                        <li key={item._id}>{item.name}</li>
+                        <li key={item._id}>
+                        <Link href={"/productDetails/" + item._id} className='border bg-gray-800 text-white font-semibold w-[40%] h-7 text-center rounded-2xl '>{item.name}</Link>
+                        </li>
                     ))}
                 </ul>
 
@@ -36,10 +35,10 @@ const SearchBar = () => {
     }
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //         fetchData();
-    // }, [searchTerm]);
+            fetchData();
+    }, [searchTerm]);
 
     const reset = () => {
         setSearchTerm("");
@@ -50,7 +49,6 @@ const SearchBar = () => {
     }
 
     const handleClick = () => {
-        fetchData();
         reset();
     }
 
@@ -68,7 +66,7 @@ const SearchBar = () => {
                     onChange={handleInputChange}
                 />
                 <br />
-                <button className='border bg-blue-700 rounded-lg px-4' onClick={handleClick}>Search</button>
+                <button className='border bg-blue-700 rounded-lg px-4' onClick={handleClick} >Clear</button>
             </div>
 
             <div>

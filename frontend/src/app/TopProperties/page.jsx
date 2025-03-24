@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-
+import Link from 'next/link';
 
 
 
@@ -50,7 +50,7 @@ const topproperties = () => {
 
                         <div className='rounded-lg'>
 
-                            <img className='h-60 border object-cover w-full rounded-t-lg' src="https://res.cloudinary.com/dbugkyyly/image/upload/v1727331256/house_no_1_img_1_ypamos.jpg" alt="" />
+                            <img className='h-60 border object-cover w-full rounded-t-lg' src={prop.image} alt="" />
                         </div>
 
                         <div className='bg-white rounded-b-lg p-5'>
@@ -80,7 +80,7 @@ const topproperties = () => {
 
                                 <h1 className='text-lg text-gray-900 font-bold'>Price : {prop.price}</h1>
 
-                                <button className='border bg-gray-600 text-white font-semibold w-[40%] h-10  rounded-2xl '>Buy Now</button>
+                                <Link href={"/productDetails/" + prop._id} className='flex items-center justify-center border bg-gray-600 text-white font-semibold w-[40%] h-10  rounded-2xl '>Contact Now</Link>
 
                             </div>
 

@@ -39,22 +39,26 @@ const Login = () => {
         initialValues: {
             email: '',
             password: ''
-
         },
         onSubmit: (values, { resetForm }) => {
-            console.log(values)
+
+            console.log(values);
             
             axios.post('http://localhost:5000/user/authenticate',values)
             .then((result) => {
                 toast.success('Login Success');
                 console.log(result.data);
                 localStorage.setItem('token',result.data.token);
-                router.push('/manageuser')
+                router.back();
+                router.back();
+                router.back();
+                router.push('/');
+                
 
             }).catch((err) => {
                 console.log(err);
+                console.log("Error in code ");
                 toast.error("Login Failed");
-                
             });
 
             // resetForm()
@@ -118,7 +122,7 @@ const Login = () => {
                     }
                     <div className='flex w-auto justify-end'>        
 
-                        <button className='text-xs mr-4 mt-1' type='button' onClick={() => setpasswordHidden(!passwordHidden)}> {passwordHidden ? 'hidde password' : 'show password'}</button>
+                        <button className='text-xs mr-4 mt-1' type='button' onClick={() => setpasswordHidden(!passwordHidden)}> {passwordHidden ? 'Show password' : 'Hide password'}</button>
 
                         <input type="checkbox"  className='border text-xs mt-1'  onClick={() => setpasswordHidden(!passwordHidden)} />
 
@@ -128,6 +132,9 @@ const Login = () => {
                     <button  type="submit" className="bg-blue-500 py-2 px-4 text-white rounded-md block w-full mt-5">
                         Submit
                     </button>
+                    <div className='flex justify-end items-end mt-2'>
+                        <a href="../SignIn" className='text-blue-700 font-semibold'>Create New Account</a>
+                    </div>
                 </form>
             </div>
 

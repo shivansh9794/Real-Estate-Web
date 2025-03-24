@@ -1,15 +1,11 @@
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer'
 import React from 'react'
 import Properties from './TopProperties/page';
 import Customerfeedback from '@/components/Customerfeedback';
-
+import Link from 'next/link';
 
 
 const page = () => {
-
-
-
 
   return (
     <div className='bg-gray-100'>
@@ -20,12 +16,12 @@ const page = () => {
 
         <div className='grid grid-cols-9 bg-gray-100'>
 
-          <div className='flex flex-col col-span-4 bg-gray-200 justify-center items-center h-screen'>
-            <h1 className=' font-bold text-6xl text-white'>Find The Perfect</h1>
-            <h1 className='font-bold text-black text-6xl'>Place to Live With Your Family</h1>
+          <div className='flex flex-col col-span-4 bg-gray-100 justify-center items-center h-screen'>
+            <h1 className=' font-bold text-6xl text-black'>Find The Perfect</h1>
+            <h1 className='font-bold text-black text-6xl ml-1'>Place to Live With Your Family</h1>
             <p className='items-start w-full font-semibold p-4 text-lg '>Your neighborhood, your future. Let's build it together.</p>
 
-            <button className='border rounded-md h-12  font-bold p-2 mr-24 mt-8 bg-gray-300  text-gray-950'> Explore Property</button>
+            <Link href={"./properties"} className='border rounded-md h-12  font-bold p-2 mr-24 mt-8 bg-gray-300  text-gray-950' >  Explore Property</Link>
           </div>
 
           <div className='bg-contain col-span-5'>

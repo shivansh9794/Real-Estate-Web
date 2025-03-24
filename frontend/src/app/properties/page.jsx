@@ -1,19 +1,26 @@
 'use client'
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Footer from '@/components/Footer';
 
+const token = localStorage.getItem('token') || '';
 
 
 const properties = () => {
 
-
+    const router = useRouter();
     const [propertyList, setpropertyList] = useState([]);
 
     const fetchproperty = () => {
 
-        axios.get('http://localhost:5000/sites/getall')
+        if (!token) router.push('/login')
+        axios.get('http://localhost:5000/sites/getall',{
+            headers: {
+              'x-auth-token': token
+            }
+          })
             .then((res) => {
                 console.log(res.data);
                 setpropertyList(res.data);
@@ -25,6 +32,7 @@ const properties = () => {
 
 
     useEffect(() => {
+       
         fetchproperty();
     }, []);
 
@@ -44,7 +52,7 @@ const properties = () => {
 
                         <div className='rounded-lg h-[60%]'>
 
-                            <img className='border object-cover h-full w-full rounded-t-lg' src="https://res.cloudinary.com/dbugkyyly/image/upload/v1727331256/house_no_1_img_1_ypamos.jpg" alt="" />
+                            <img className='border object-cover h-full w-full rounded-t-lg' src={prop.image} alt="Error" />
                         </div>
 
                         <div className='bg-white h-[35%] rounded-b-lg'>
@@ -67,7 +75,7 @@ const properties = () => {
 
                                 <h1 className='text-lg text-gray-900 font-bold'>Price : {prop.price}</h1>
 
-                                <Link href={"/productDetails/" + prop._id} className='border bg-gray-800 text-white font-semibold w-[40%] h-7 text-center rounded-2xl '>Buy Now</Link>
+                                <Link href={"/productDetails/" + prop._id} className='border bg-gray-800 text-white flex font-semibold w-[40%] h-10 justify-center items-center text-center rounded-2xl '>Contact Now</Link>
 
                             </div>
 
@@ -84,7 +92,7 @@ const properties = () => {
     }
 
     return (
-        <div className='grid grid-cols-12'>
+        <div className='grid grid-cols-12 w-full'>
 
             <div className=' col-span-1  bg-gray-50'>
                 
@@ -94,7 +102,15 @@ const properties = () => {
             </div>
             <div className='mt-1 col-span-11 h-auto'>
                 {cards()}
+
+
+                
             </div>
+
+            <div className='col-span-12'>
+                <Footer></Footer>
+            </div>
+            
         </div>
     )
 }

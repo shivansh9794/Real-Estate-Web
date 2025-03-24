@@ -7,11 +7,7 @@ const mySchema = new Schema({
     type:{ type:String},
     address: { type: String, default: 'Unknown' },
     contact: {type : Number},
-    mainimage:{type :String},
-    sideimage:{type :String},
-    kitchenimage:{type :String},
-    bedroomimage:{type :String},
-    washroomimage:{type :String},
+    image:{type :String},
     price:{type:Number},
     createdAt: { type: Date, default: Date.now }
 });
