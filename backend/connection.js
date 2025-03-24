@@ -10,5 +10,4 @@ mongoose.connect(url).then((result) => {
 });
 
 
-
 module.exports=mongoose;
